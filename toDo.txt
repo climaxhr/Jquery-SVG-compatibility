@@ -1,0 +1,26 @@
+ Only a tree with an <svg> element is properly handled. The following work as expected:
+
+$('body').append('<svg width="100px" height="100px"><circle cx="50" cy="50" r="39" fill="red" /></svg>');
+
+Unfortunately, if you try to insert a element outside of an explicit <svg> element, it fail. The following does not work as expected
+
+$('svg').append('<circle cx="50" cy="50" r="40" fill="green" />'); 
+----------------------------------------------
+jQuery mistakes event on SVG 'use' element in IE9.
+
+
+Have a look on jsFiddle​http://jsfiddle.net/sunnythink/gkrhY/
+
+1.All work well in FF; 2.'circle' works well in IE9; 3.'use' fails in IE9; 4.In FF, 'delegate' fails, 'on' is fine.
+------------------------------------------------------
+ The 'hidden' selector documentation at ​http://docs.jquery.com/Selectors/hidden links to ​http://docs.jquery.com/Release:jQuery_1.3.2#:visible.2F:hidden_Overhauled, which says:
+
+"if your element's CSS display is 'none' [...] then an element will be reported as hidden"
+
+This sample code demonstrates that at least for SVG images in Firefox (tested on version 15.0.1), the selector does not function as described for CSS display:none.
+
+As can be seen in the code, a workaround for this issue is to directly test the CSS "display" property, but it would be more convenient (and consistent) to use the selector.
+
+I tested something closely resembling this code in Chrome and the selector worked correctly, but at the moment I'm at a different machine without access to Chrome, so I haven't run it against the code below. 
+--------------------------------------------------------------
+
